@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract GameItem is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
@@ -14,24 +15,35 @@ contract GameItem is ERC721URIStorage, Ownable {
 
     constructor() ERC721("Adachi Tokens", "ADANFT") {}
 
-    // mapping(uint256 => NFTItem) private stageToNFTItem;
+    mapping(address => uint256) public lastPlayedAt;
+
+    mapping(uint256 => NFTItem) private _idToItem;
+
+    mapping(uint256 => uint256) public stageToCount;
 
     struct NFTItem {
         uint256 tokenId;
-        uint256 number;
+        address owner;
         uint256 stage;
-        bool sold;
+        uint256 number;
     }
 
-    NFTItem[] items;
+    event CreateNFTItem(uint256 tokenId, uint256 stage, uint256 number);
+    event DebugLogEvent(string);
 
-    function createGameItem() public payable onlyOwner returns (uint256) {
+    function createGameItem(uint256 _stage, string memory _svg)
+        public
+        payable
+        onlyOwner
+    {
         uint256 newItemId = _tokenIds.current();
         string memory json = Base64.encode(
             bytes(
                 string(
                     abi.encodePacked(
-                        '{"name": "Adachi", "description": "A highly acclaimed collection of squares.", "image": "data:image/png;base64,PHN2ZyB3aWR0aD0iMzJweCIgaGVpZ2h0PSIzMnB4IiB2aWV3Qm94PSIwIDAgMzIgMzIiIGlkPSJpY29uIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGQ9Ik0xMiwyMkg0VjhIMTZWNkg0QTIsMiwwLDAsMCwyLDhWMjJhMiwyLDAsMCwwLDIsMmg4WiIvPgogIDxwb2x5Z29uIHBvaW50cz0iMjIgMTMuNDE0IDI4IDcuNDE0IDI4IDEyIDMwIDEyIDMwIDQgMjIgNCAyMiA2IDI2LjU4NiA2IDIwLjU4NiAxMiAyMiAxMy40MTQiLz4KICA8cGF0aCBkPSJNMTMuNDk1MywzMGwtMS42LTEuMkwxNywyMmg3VjE2aDJ2NmEyLjAwMjMsMi4wMDIzLDAsMCwxLTIsMkgxOFoiLz4KICA8cmVjdCBpZD0iX1RyYW5zcGFyZW50X1JlY3RhbmdsZV8iIGRhdGEtbmFtZT0iJmx0O1RyYW5zcGFyZW50IFJlY3RhbmdsZSZndDsiIGNsYXNzPSJjbHMtMSIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIi8+Cjwvc3ZnPgo="}'
+                        '{"name": "Adachi", "description": "A highly acclaimed collection of squares.", "image": "data:image/_svg+xml;base64,',
+                        Base64.encode(bytes(_svg)),
+                        '"}'
                     )
                 )
             )
@@ -39,29 +51,118 @@ contract GameItem is ERC721URIStorage, Ownable {
         string memory finalTokenUri = string(
             abi.encodePacked("data:application/json;base64,", json)
         );
-        console.log("Before mint");
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenUri);
-        items.push(NFTItem(newItemId, 1, 1, false));
+        uint256 number = stageToCount[_stage] + 1;
+        _idToItem[newItemId] = NFTItem(newItemId, msg.sender, _stage, number);
+        stageToCount[_stage]++;
+        emit CreateNFTItem(newItemId, number, _stage);
         _tokenIds.increment();
-        return newItemId;
     }
 
-    function transferItem() public onlyOwner {
-        transferToken(
-            "0x221E25Ad7373Fbaf33C7078B8666816586222A09",
-            msg.sender,
-            ""
-        );
+    function canPlayGame() public view returns (bool) {
+        return lastPlayedAt[msg.sender] + 12 hours < block.timestamp;
     }
 
-    function fetchNFTs() public view returns (NFTItem[] memory) {
-        // NFTItem[] list;
-        // for (uint256 index = 0; index < items.length; index++) {
-        //     if (items.stage == stage) {
-        //         list.push(item[index]);
-        //     }
-        // }
+    function startGame() public {
+        lastPlayedAt[msg.sender] = block.timestamp;
+    }
+
+    function _judge(uint256 _number) private view returns (bool) {
+        uint256 answer = uint256(
+            keccak256(
+                abi.encodePacked(
+                    block.timestamp,
+                    block.difficulty,
+                    msg.sender,
+                    _number
+                )
+            )
+        ) % 2;
+        if (answer == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // ゲームの判定を行う
+    function judgeGame(uint256 _stage, uint256 _number)
+        public
+        view
+        returns (uint256)
+    {
+        if (_judge(_number)) {
+            uint256 result = _canMint(_stage);
+            return result;
+        } else {
+            return 3;
+        }
+    }
+
+    function fetchCurrenStatus() public view returns (uint256[] memory) {
+        uint256[] memory countList = new uint256[](5);
+        for (uint256 i = 1; i < 6; i++) {
+            countList[i - 1] = stageToCount[i];
+        }
+        return countList;
+    }
+
+    /*
+        0→次のステージに移動
+        1→ユーザがNFTを発行するかゲームを継続できるか選択できる
+        2→NFTを発行させる
+    */
+    function _canMint(uint256 _stage) private view returns (uint256) {
+        if (_ownedNFTOfStage(_stage)) {
+            return 0;
+        } else {
+            if (_isExistedNFTOfStage(_stage)) {
+                return 1;
+            } else {
+                return 2;
+            }
+        }
+    }
+
+    function _isExistedNFTOfStage(uint256 _stage) private view returns (bool) {
+        if (stageToCount[_stage] != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function _ownedNFTOfStage(uint256 _stage) private view returns (bool) {
+        NFTItem[] memory items = fetchMyNFTs();
+        for (uint256 i = 0; i < items.length; i++) {
+            if (items[i].stage == _stage) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function fetchMyNFTs() public view returns (NFTItem[] memory) {
+        uint256 totalItemCount = _tokenIds.current();
+        uint256 itemCount = 0;
+        uint256 currentIndex = 0;
+
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (_idToItem[i].owner == msg.sender) {
+                itemCount += 1;
+            }
+        }
+
+        NFTItem[] memory items = new NFTItem[](itemCount);
+        for (uint256 i = 0; i < totalItemCount; i++) {
+            if (_idToItem[i].owner == msg.sender) {
+                NFTItem storage currentItem = _idToItem[i];
+                items[currentIndex] = currentItem;
+                currentIndex++;
+            }
+        }
+
         return items;
     }
 }

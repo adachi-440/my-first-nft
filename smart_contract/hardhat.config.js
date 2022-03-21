@@ -19,8 +19,8 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: "0.8.4",
   networks: {
-    rinkeby: {
-      url: "https://eth-rinkeby.alchemyapi.io/v2/j2UaUb9GPgOJ7vLdGmoYHTSbcyRToKJB",
+    matic: {
+      url: "https://polygon-mumbai.g.alchemy.com/v2/j2UaUb9GPgOJ7vLdGmoYHTSbcyRToKJB",
       accounts: [`${process.env.PRIVATE_KEY}`]
     }
   }

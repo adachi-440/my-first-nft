@@ -4,6 +4,7 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
+const test = require("../images");
 
 async function main() {
   // We get the contract to deploy
@@ -14,12 +15,10 @@ async function main() {
 
   console.log("GameItem deployed to:", gameItem.address);
 
-  let txn = await gameItem.createGameItem();
+  // stage, number
+  let txn = await gameItem.createGameItem(1, 1, test);
   await txn.wait();
-  txn = await gameItem.createGameItem();
-  await txn.wait();
-  txn = await gameItem.fetchNFTs();
-  console.log(txn[0].tokenId);
+  console.log(txn);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
