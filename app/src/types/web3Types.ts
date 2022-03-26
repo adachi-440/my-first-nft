@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 
 export interface Account {
   id: string;
@@ -10,7 +10,7 @@ export interface Account {
 export interface Web3ContextInterface {
   account: Account | null;
   provider: ethers.providers.Web3Provider | null;
-  stage: number,
+  stage: number;
   nextStage: () => void;
   connectWallet: () => Promise<void>;
   checkPlayGame: () => Promise<boolean>;
@@ -18,4 +18,12 @@ export interface Web3ContextInterface {
   startGame: () => Promise<void>;
   judge: () => Promise<number>;
   mintItem: (stage: number) => Promise<void>;
+}
+
+export interface NFTItem {
+  tokenId: number;
+  stage: number;
+  number: number;
+  message: string;
+  svg: any;
 }

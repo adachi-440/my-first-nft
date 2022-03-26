@@ -1,5 +1,7 @@
-import { NextPage } from "next/types";
+import { NextPage } from 'next/types';
 
-export const End: NextPage = () => {
+const End: NextPage = () => {
   return <div></div>;
-}
+};
+
+export default End;

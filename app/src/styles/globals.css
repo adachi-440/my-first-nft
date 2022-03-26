@@ -1,3 +1,387 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'roboto';
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'newspaper-title';
+  src: url('../fonts/Moul-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'ubuntu-mono';
+  src: url('../fonts/UbuntuMono-Regular.ttf') format('truetype');
+}
+
+body {
+  color: white;
+  background-color: black;
+}
+
+.sample-box {
+  position: relative;
+}
+
+.home-contents {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+}
+
+.sample-box img {
+  width: 80%;
+  opacity: 0.75;
+}
+
+.test {
+  color: blanchedalmond;
+  font-family: 'newspaper-title';
+}
+
+.title-app-name {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 70px;
+  line-height: 80px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #211f26 -17.8%, #d6d5da 91.95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-title-discription {
+  font-family: 'ubuntu-mono';
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.game-start-button {
+  width: 100px;
+  height: 100px;
+  background: gold;
+  border-radius: 100%;
+}
+
+.how-to-play-title {
+  padding-left: 25%;
+  font-family: 'roboto';
+  color: #ffffff;
+  font-size: 14px;
+}
+.how-to-play-contents {
+  display: flex;
+  padding-left: 25%;
+}
+
+.how-to-play-box {
+  height: 106px;
+  width: 310px;
+  justify-content: space-between;
+  background: black;
+  border: solid 2px #583f99; /*線*/
+  border-radius: 20px; /*角の丸み*/
+}
+.how-to-play-title-head {
+  padding-top: 22px;
+  padding-left: 16px;
+  font-family: 'roboto';
+  color: #583f99;
+  font-size: 16px;
+}
+.how-to-play-title-content {
+  padding-top: 22px;
+  padding-left: 16px;
+  font-family: 'ubuntu-mono';
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.how-to-play-title-content {
+  padding-top: 22px;
+  padding-left: 16px;
+  font-family: 'ubuntu-mono';
+  color: #ffffff;
+  font-size: 16px;
+}
+.callenger-list-title {
+  font-family: 'roboto';
+  color: #ffffff;
+  font-size: 32px;
+}
+
+.rank-box {
+  position: relative;
+}
+.rank-box-contents {
+  padding-left: 64px;
+  position: absolute;
+  top: 50px;
+  left: 300px;
+  background-color: #101010;
+  width: 900px;
+  height: 684px;
+  border-radius: 10px;
+}
+
+.home-earth-img {
+  position: relative;
+  height: 800px;
+}
+
+.ranking-title {
+  height: 26px;
+  width: 476px;
+  justify-content: space-between;
+  background: #a6a0ff;
+  border-radius: 6px; /*角の丸み*/
+}
+
+.ranking-title-box {
+  padding: 4px 24px 4px 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.ranking-title-box-left {
+  display: flex;
+}
+.ranking-title-box-content {
+  display: flex;
+  font-size: 16px;
+  font-family: 'ubuntu-mono';
+  color: #583f99;
+}
+
+.ranking-box {
+  height: 68px;
+  width: 476px;
+  justify-content: space-between;
+  background: #101010;
+  border: solid 1px #583f99; /*線*/
+  border-radius: 10px; /*角の丸み*/
+}
+
+.ranking-box-contents {
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.ranking-box-contents-left {
+  display: flex;
+}
+
+.ranking-box-contents-right {
+  display: flex;
+  font-size: 24;
+  font-family: 'ubuntu-mono';
+  color: #ffffff;
+}
+
+.ranking-box-contents-left-number {
+  font-size: 28;
+  font-family: 'ubuntu-mono';
+  color: #583f99;
+}
+.ranking-box-contents-left-planet {
+  padding-left: 30px;
+  font-size: 27;
+  font-family: 'ubuntu-mono';
+  color: #ffffff;
+}
+
+.home-mobile img {
+  width: 80%;
+}
+
+.left-16px-padding {
+  padding-left: 16px;
+}
+
+button {
+  --glow-color: rgb(217, 176, 255);
+  --glow-spread-color: rgba(191, 123, 255, 0.781);
+  --enhanced-glow-color: rgb(231, 206, 255);
+  --btn-color: rgb(100, 61, 136);
+  border: 0.25em solid var(--glow-color);
+  padding: 1em 3em;
+  color: var(--glow-color);
+  font-size: 15px;
+  font-weight: bold;
+  background-color: var(--btn-color);
+  border-radius: 1em;
+  outline: none;
+  box-shadow: 0 0 0.8em 0.3em var(--glow-color), 0 0 4em 1em var(--glow-spread-color),
+    inset 0 0 0.75em 0.25em var(--glow-color);
+  text-shadow: 0 0 0.5em var(--glow-color);
+  position: relative;
+  transition: all 0.3s;
+}
+
+button::after {
+  pointer-events: none;
+  content: '';
+  position: absolute;
+  top: 120%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--glow-spread-color);
+  filter: blur(3.5em);
+  opacity: 0.7;
+  transform: perspective(1.5em) rotateX(35deg) scale(1, 0.6);
+}
+
+button:hover {
+  color: var(--btn-color);
+  background-color: var(--glow-color);
+  box-shadow: 0 0 0.8em 0.3em var(--glow-color), 0 0 3em 2em var(--glow-spread-color),
+    inset 0 0 0.75em 0.25em var(--glow-color);
+}
+
+button:active {
+  box-shadow: 0 0 0.6em 0.25em var(--glow-color), 0 0 2.5em 2em var(--glow-spread-color),
+    inset 0 0 0.5em 0.25em var(--glow-color);
+}
+
+.game-play-background {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.content {
+  position: relative;
+}
+.content-main {
+  position: absolute;
+  display: flex;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.button03 a {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  width: 236px;
+  color: #583f99;
+  font-size: 18px;
+  font-weight: 700;
+  border: 2px solid #583f99;
+}
+
+.choose-hero-title {
+  font-family: 'ubuntu-mono';
+  color: #ffffff;
+  letter-spacing: 8px;
+  font-size: 16px;
+}
+
+.button03 a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #583f99;
+}
+
+.game-result-title {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 144px;
+  line-height: 176px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  background: linear-gradient(180deg, #583f99 12.07%, #999999 127.86%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.game-result-message {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 44px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.next-game-button a {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  width: 400px;
+  color: #583f99;
+  font-size: 18px;
+  font-weight: 700;
+  border: 2px solid #583f99;
+}
+
+.next-game-button a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #583f99;
+}
+
+.fail-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.padding-top-96px {
+  padding-top: 96px;
+}
+.padding-top-64px {
+  padding-top: 64px;
+}
+.padding-top-32px {
+  padding-top: 32px;
+}
+.padding-top-16px {
+  padding-top: 16px;
+}
+.padding-top-8px {
+  padding-top: 8px;
+}
+
+.padding-left-96x {
+  padding-left: 96px;
+}
+.padding-left-64px {
+  padding-left: 64px;
+}
+.padding-left-32px {
+  padding-left: 32px;
+}
+.padding-left-16px {
+  padding-left: 16px;
+}
+.padding-left-8px {
+  padding-left: 8px;
+}

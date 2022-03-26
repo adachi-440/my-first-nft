@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
-import { Web3ContextInterface } from "../types/web3Types";
-import { getWeb3Provider } from "../utils/web3Util";
-import { useContract } from "../hooks/useContract";
+import React, { createContext, useEffect, useState } from 'react';
+import { Web3ContextInterface } from '../types/web3Types';
+import { getWeb3Provider } from '../utils/web3Util';
+import { useContract } from '../hooks/useContract';
 
 type Interface = Web3ContextInterface;
 
@@ -20,23 +20,25 @@ const getDefaultContextValue = (): Web3ContextInterface => ({
 
 export const GameTransaction = createContext<Web3ContextInterface>(getDefaultContextValue());
 
-export const TransactionProvider: React.FC<
-React.PropsWithChildren<{ key?: string }>
-> = ({ children }) => {
-  const [provider, setProvider] = useState<Interface["provider"]>(null);
-  const [account, setAccount] = useState<Interface["account"]>(null);
+export const TransactionProvider: React.FC<React.PropsWithChildren<{ key?: string }>> = ({
+  children,
+}) => {
+  const [provider, setProvider] = useState<Interface['provider']>(null);
+  const [account, setAccount] = useState<Interface['account']>(null);
   const [stage, setStage] = useState(1);
 
   const nextStage = () => {
+    localStorage.setItem('stage', (stage + 1).toString());
     setStage(stage + 1);
   };
 
   const connectWallet = async () => {
     try {
-      console.log('test');
-      const [instance, _provider] = await getWeb3Provider();
-      setProvider(_provider);
-      setAccount(account);
+      if (!account) {
+        const [instance, _provider] = await getWeb3Provider();
+        setProvider(_provider);
+        setAccount(account);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -45,8 +47,9 @@ React.PropsWithChildren<{ key?: string }>
   const checkPlayGame = async () => {
     try {
       const gameItemContract = useContract();
-      if(gameItemContract) {
+      if (gameItemContract) {
         const canPlayGame = await gameItemContract.canPlayGame();
+        console.log(canPlayGame);
         return canPlayGame;
       }
       return false;
@@ -59,7 +62,7 @@ React.PropsWithChildren<{ key?: string }>
   const fetchCurrentStatus = async () => {
     try {
       const gameItemContract = useContract();
-      if(gameItemContract) {
+      if (gameItemContract) {
         const currentStatuses = await gameItemContract.fetchCurrentStatus();
         const statuses = currentStatuses.map((status: any) => ({
           count: parseInt(status.count._hex),
@@ -76,7 +79,7 @@ React.PropsWithChildren<{ key?: string }>
   const startGame = async () => {
     try {
       const gameItemContract = useContract();
-      if(gameItemContract) {
+      if (gameItemContract) {
         await gameItemContract.startGame();
       }
     } catch (error) {
@@ -87,7 +90,7 @@ React.PropsWithChildren<{ key?: string }>
   const judge = async () => {
     try {
       const gameItemContract = useContract();
-      if(gameItemContract) {
+      if (gameItemContract) {
         const num = Math.floor(Math.random() * 9999999) + 1;
         const result = await gameItemContract.judgeGame(num);
         return result;
@@ -102,7 +105,7 @@ React.PropsWithChildren<{ key?: string }>
   const mintItem = async (stage: number) => {
     try {
       const gameItemContract = useContract();
-      if(gameItemContract) {
+      if (gameItemContract) {
         // todo svgを入れる
         const txn = await gameItemContract.createItem(stage, '');
         await txn.wait();
@@ -114,6 +117,8 @@ React.PropsWithChildren<{ key?: string }>
 
   useEffect(() => {
     connectWallet();
+    const stageText = localStorage.getItem('stage');
+    setStage(parseInt(stageText ?? '1'));
   }, []);
 
   return (

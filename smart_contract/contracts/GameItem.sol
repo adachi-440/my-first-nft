@@ -26,22 +26,31 @@ contract GameItem is ERC721URIStorage, Ownable {
         address owner;
         uint256 stage;
         uint256 number;
+        string message;
     }
 
-    event CreateNFTItem(uint256 tokenId, uint256 stage, uint256 number);
+    event CreateNFTItem(
+        uint256 tokenId,
+        uint256 stage,
+        uint256 number,
+        string message
+    );
     event DebugLogEvent(string);
 
-    function createGameItem(uint256 _stage, string memory _svg)
-        public
-        payable
-        onlyOwner
-    {
+    function createGameItem(
+        uint256 _stage,
+        string memory _message,
+        string memory _svg
+    ) public payable {
+        require(_ownedNFTOfStage(_stage));
         uint256 newItemId = _tokenIds.current();
         string memory json = Base64.encode(
             bytes(
                 string(
                     abi.encodePacked(
-                        '{"name": "Adachi", "description": "A highly acclaimed collection of squares.", "image": "data:image/_svg+xml;base64,',
+                        '{"name": "Adachi", "message":',
+                        _message,
+                        '"A highly acclaimed collection of squares.", "image": "data:image/_svg+xml;base64,',
                         Base64.encode(bytes(_svg)),
                         '"}'
                     )
@@ -54,9 +63,15 @@ contract GameItem is ERC721URIStorage, Ownable {
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenUri);
         uint256 number = stageToCount[_stage] + 1;
-        _idToItem[newItemId] = NFTItem(newItemId, msg.sender, _stage, number);
+        _idToItem[newItemId] = NFTItem(
+            newItemId,
+            msg.sender,
+            _stage,
+            number,
+            _message
+        );
         stageToCount[_stage]++;
-        emit CreateNFTItem(newItemId, number, _stage);
+        emit CreateNFTItem(newItemId, _stage, number, _message);
         _tokenIds.increment();
     }
 
@@ -64,12 +79,14 @@ contract GameItem is ERC721URIStorage, Ownable {
         return lastPlayedAt[msg.sender] + 12 hours < block.timestamp;
     }
 
-    function startGame() public {
+    function startGame() public payable {
+        require(canPlayGame());
         lastPlayedAt[msg.sender] = block.timestamp;
     }
 
+    // 計算方法の変更
     function _judge(uint256 _number) private view returns (bool) {
-        uint256 answer = uint256(
+        uint256 firstNumber = uint256(
             keccak256(
                 abi.encodePacked(
                     block.timestamp,
@@ -78,15 +95,38 @@ contract GameItem is ERC721URIStorage, Ownable {
                     _number
                 )
             )
-        ) % 2;
-        if (answer == 0) {
+        );
+        uint256 transactionCount = uint256(_tokenIds.current());
+        uint256 transactionNumber = firstNumber % (transactionCount + 1);
+        uint256 addressNumber = firstNumber % 10;
+        uint256 totalCount = 1;
+
+        for (uint256 i = 0; i < transactionCount; i++) {
+            NFTItem memory item = _idToItem[transactionNumber];
+            uint256 ownerAddressNum = uint256(uint160(address(item.owner)));
+            for (uint256 i = 0; i < addressNumber + 1; i++) {
+                ownerAddressNum = uint256(
+                    keccak256(
+                        abi.encodePacked(
+                            ownerAddressNum,
+                            ((i + 1) * addressNumber)
+                        )
+                    )
+                );
+            }
+            totalCount = uint256(
+                keccak256(abi.encodePacked(ownerAddressNum, transactionNumber))
+            );
+            transactionNumber = ownerAddressNum % (transactionCount + 1);
+            addressNumber = ownerAddressNum % 10;
+        }
+        if (totalCount == 0) {
             return true;
         } else {
             return false;
         }
     }
 
-    // ゲームの判定を行う
     function judgeGame(uint256 _stage, uint256 _number)
         public
         view

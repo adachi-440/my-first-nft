@@ -16,8 +16,12 @@ async function main() {
   console.log("GameItem deployed to:", gameItem.address);
 
   // stage, number
-  let txn = await gameItem.createGameItem(1, 1, test);
+  let txn = await gameItem.createGameItem(1, test);
   await txn.wait();
+  console.log(txn);
+  txn = await gameItem.test(1213);
+  console.log(txn);
+  txn = await gameItem.test(23234);
   console.log(txn);
 }
 
