@@ -13,7 +13,7 @@ const Game: NextPage = () => {
   const [isLoading, setisLoading] = useState(false);
   const router = useRouter();
   const { stage, nextStage } = useWeb3();
-  const [ test, setTest ] = useState(0);
+  const [test, setTest] = useState(0);
 
   const judge = async () => {
     try {
@@ -37,13 +37,13 @@ const Game: NextPage = () => {
   const judgeTest = async () => {
     try {
       if (contract) {
-        for(let i = 0; i < 100; i++) {
+        for (let i = 0; i < 100; i++) {
           const num = Math.floor(Math.random() * 9999999) + 1;
           const result = await contract.judgeGame(stage, num);
-          console.log(result)
-          if(parseInt(result._hex) == 3) {
+          console.log(result);
+          if (parseInt(result._hex) == 3) {
             const t = test;
-            setTest(t + 1)
+            setTest(t + 1);
           }
           await _sleep(2000);
         }
@@ -51,11 +51,11 @@ const Game: NextPage = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
-    judgeTest()
-  }, [contract])
+    judgeTest();
+  }, [contract]);
 
   return (
     <div>

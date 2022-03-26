@@ -13,7 +13,7 @@ contract GameItem is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("Adachi Tokens", "ADANFT") {}
+    constructor() ERC721("My Fisrt NFT", "MFTKN") {}
 
     mapping(address => uint256) public lastPlayedAt;
 
@@ -42,15 +42,15 @@ contract GameItem is ERC721URIStorage, Ownable {
         string memory _message,
         string memory _svg
     ) public payable {
-        require(_ownedNFTOfStage(_stage));
+        require(!_ownedNFTOfStage(_stage));
         uint256 newItemId = _tokenIds.current();
         string memory json = Base64.encode(
             bytes(
                 string(
                     abi.encodePacked(
-                        '{"name": "Adachi", "message":',
+                        '{"name": "My Fisrt NFT", "message": "',
                         _message,
-                        '"A highly acclaimed collection of squares.", "image": "data:image/_svg+xml;base64,',
+                        '", "image": "data:image/_svg+xml;base64,',
                         Base64.encode(bytes(_svg)),
                         '"}'
                     )
@@ -120,7 +120,7 @@ contract GameItem is ERC721URIStorage, Ownable {
             transactionNumber = ownerAddressNum % (transactionCount + 1);
             addressNumber = ownerAddressNum % 10;
         }
-        if (totalCount == 0) {
+        if (totalCount % 2 == 0) {
             return true;
         } else {
             return false;

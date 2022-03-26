@@ -44,44 +44,41 @@ const CurrentStatus: NextPage = () => {
   }, [contarct]);
 
   return (
-    <div>
-      <div className='rank-box-contents'>
+    <div className='rank-box-contents'>
+      <div className='callenger-list-title'>
+        We wellcome next challenger!
         <div className='padding-top-32px'></div>
-        <div className='callenger-list-title'>
-          We wellcome next challenger!
-          <div className='padding-top-32px'></div>
-          <div className='ranking-title'>
-            <div className='ranking-title-box'>
-              <div className='ranking-title-box-left'>
-                <div className='ranking-title-box-content'>No.</div>
-                <div className='left-16px-padding'></div>
-                <div className='ranking-title-box-content'>NFT Name</div>
-              </div>
-              <div className='ranking-title-box-right'>
-                <div className='ranking-title-box-content'>Minted</div>
-              </div>
+        <div className='ranking-title'>
+          <div className='ranking-title-box'>
+            <div className='ranking-title-box-left'>
+              <div className='ranking-title-box-content'>No.</div>
+              <div className='left-16px-padding'></div>
+              <div className='ranking-title-box-content'>NFT Name</div>
+            </div>
+            <div className='ranking-title-box-right'>
+              <div className='ranking-title-box-content'>Minted</div>
             </div>
           </div>
         </div>
-
-        <div className='padding-top-8px'></div>
-
-        {statuses.map((status, index) => (
-          <div className='ranking-box'>
-            <div className='ranking-box-contents'>
-              <div className='ranking-box-contents-left'>
-                <div className='ranking-box-contents-left-number'>{index + 1}</div>
-                <div className='ranking-box-contents-left-planet'>
-                  {convertStageToPlanet(status.stage)}
-                </div>
-              </div>
-
-              <div className='ranking-box-contents-right'>{status.count}</div>
-            </div>
-            <div className='padding-top-8px'></div>
-          </div>
-        ))}
       </div>
+
+      <div className='padding-top-8px'></div>
+
+      {statuses.map((status, index) => (
+        <div className='ranking-box'>
+          <div className='ranking-box-contents'>
+            <div className='ranking-box-contents-left'>
+              <div className='ranking-box-contents-left-number'>{index + 1}</div>
+              <div className='ranking-box-contents-left-planet'>
+                {convertStageToPlanet(status.stage)}
+              </div>
+            </div>
+
+            <div className='ranking-box-contents-right'>{status.count}</div>
+          </div>
+          <div className='padding-top-8px'></div>
+        </div>
+      ))}
     </div>
   );
 };

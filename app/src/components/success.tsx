@@ -67,8 +67,13 @@ const Success: NextPage<Props> = (props) => {
         title: 'SUCCESS!',
         content: `now you are :${convertStageToPlanet(stage)}  parcentarge: 5%`,
         html: (
-          <div className='next-game-button'>
-            <a onClick={() => pushNextStage()}>Next Stage</a>
+          <div className="button-group">
+            <div className='next-game-button'>
+              <a onClick={() => pushNextStage()}>Next Stage</a>
+            </div>
+            <div className='next-game-button'>
+              <a onClick={() => pushNextStage()}>Next Stage</a>
+            </div>
           </div>
         ),
       });

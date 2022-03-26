@@ -85,9 +85,6 @@ const Home: NextPage = () => {
       </div>
 
       <div className='rank-box'>
-        <div>
-          <Image src={HomeEarth} height={800} />
-        </div>
         <CurrentStatus />
       </div>
     </div>
