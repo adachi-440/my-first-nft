@@ -53,8 +53,8 @@ const Success: NextPage<Props> = (props) => {
         const txn = await contract.createGameItem(stage, message, pickUpImage(stage));
         await txn.wait();
         resetStage();
-        setisLoading(false);
         router.push('/');
+        setisLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -68,7 +68,7 @@ const Success: NextPage<Props> = (props) => {
         title: 'SUCCESS!',
         content: (
           <div>
-            <p>now you are :${convertStageToPlanet(stage)}</p>
+            <p>now you are : {convertStageToPlanet(stage)}</p>
             <p>parcentarge: 5%</p>
           </div>
         ),
@@ -122,7 +122,7 @@ const Success: NextPage<Props> = (props) => {
         title: "You're number one.",
         content: (
           <div>
-            <p>now you are :${convertStageToPlanet(stage)}</p>
+            <p>now you are : {convertStageToPlanet(stage)}</p>
             <p>parcentarge: 5%</p>
           </div>
         ),

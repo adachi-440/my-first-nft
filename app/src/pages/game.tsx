@@ -28,7 +28,7 @@ const Game: NextPage = () => {
         await _sleep(3000);
         router.replace({
           pathname: '/result',
-          query: { status: parseInt(result._hex) },
+          query: { status: 1 },
         });
         setVisible(false);
         // parseInt(result._hex)
@@ -51,6 +51,7 @@ const Game: NextPage = () => {
           if (parseInt(result._hex) === 3) {
             count++;
           }
+          await _sleep(1000)
         }
         console.log(count)
       }
