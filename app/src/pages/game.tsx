@@ -51,7 +51,7 @@ const Game: NextPage = () => {
           if (parseInt(result._hex) === 3) {
             count++;
           }
-          await _sleep(1000)
+          await _sleep(500)
         }
         console.log(count)
       }
