@@ -7,11 +7,13 @@ import { useContract } from '../hooks/useContract';
 import HomeBackGround from '../assets/home_background.png';
 import HomeMobile from '../assets/home_mobile.png';
 import HomeEarth from '../assets/home_earth.png';
+import { useWeb3 } from '../hooks/useWeb3';
 
 const Home: NextPage = () => {
   const [canGamePlay, setCanGamePlay] = useState(false);
   const router = useRouter();
   const contract = useContract();
+  const { connectWallet } = useWeb3()
 
   const checkPlayGame = async () => {
     try {
@@ -56,7 +58,7 @@ const Home: NextPage = () => {
           <br />
           <div className='app-title-discription'>Choose rocket and travel another space!</div>
           <div className='padding-top-96px'></div>
-          {canGamePlay && <button onClick={() => startGame()}>start game!!</button>}
+          {canGamePlay ? <button onClick={() => startGame()}>start game!!</button> : <button onClick={() => connectWallet()}>Connect Wallet</button>}
         </div>
       </div>
       <div className='padding-top-64px'></div>

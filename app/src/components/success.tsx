@@ -14,14 +14,14 @@ interface Props {
 
 interface SuceessStatus {
   title: string;
-  content: string;
+  content: ReactElement;
   html: ReactElement;
 }
 
 const Success: NextPage<Props> = (props) => {
   const [successStatus, setSuccessStatus] = useState<SuceessStatus>({
     title: '',
-    content: '',
+    content: <div></div>,
     html: <div></div>,
   });
   const [isLoading, setisLoading] = useState(false);
@@ -65,7 +65,12 @@ const Success: NextPage<Props> = (props) => {
     if (result == 0) {
       setSuccessStatus({
         title: 'SUCCESS!',
-        content: `now you are :${convertStageToPlanet(stage)}  parcentarge: 5%`,
+        content: (
+          <div>
+            <p>now you are :${convertStageToPlanet(stage)}</p>
+            <p>parcentarge: 5%</p>
+          </div>
+        ),
         html: (
           <div className='button-group'>
             <div className='next-game-button'>
@@ -77,8 +82,23 @@ const Success: NextPage<Props> = (props) => {
     } else if (result == 1) {
       setSuccessStatus({
         title: 'Success',
-        content:
-          'You have arrived here for the first time; you can get your NFT and finish the game.   But there are others in the world who have ventured further than this and succeeded in their journey.   You may try the next journey. However, if you fail, you will not get the NFT for this planet.',
+        content: (
+          <div>
+            <p>
+              You have arrived here for the first time; you can get your NFT and finish the game.
+            </p>
+            <div className="padding-top-16px"></div>
+            <p>
+              But there are others in the world who have ventured further than this and succeeded in
+              their journey.
+            </p>
+            <div className="padding-top-16px"></div>
+            <p>
+              You may try the next journey. However, if you fail, you will not get the NFT for this
+              planet.
+            </p>
+          </div>
+        ),
         html: (
           <div>
             {isLoading ? (
@@ -99,7 +119,12 @@ const Success: NextPage<Props> = (props) => {
     } else {
       setSuccessStatus({
         title: "You're number one.",
-        content: `now you are :${convertStageToPlanet(stage)}  parcentarge: 5%`,
+        content: (
+          <div>
+            <p>now you are :${convertStageToPlanet(stage)}</p>
+            <p>parcentarge: 5%</p>
+          </div>
+        ),
         html: (
           <div>
             {/* <Textarea

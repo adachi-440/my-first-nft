@@ -3,7 +3,7 @@ import { NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
 import { useContract } from '../hooks/useContract';
 import { useWeb3 } from '../hooks/useWeb3';
-import { Modal, useModal } from "@nextui-org/react";
+import { Modal, useModal } from '@nextui-org/react';
 import Image from 'next/image';
 import PlayBackGround from '../assets/play_background.png';
 import Player from '../assets/player_1.png';
@@ -29,7 +29,7 @@ const Game: NextPage = () => {
           pathname: '/result',
           query: { status: parseInt(result._hex) },
         });
-        setVisible(false)
+        setVisible(false);
         // parseInt(result._hex)
       }
     } catch (error) {
@@ -91,13 +91,13 @@ const Game: NextPage = () => {
       )}
       <Modal
         scroll
-        width="600px"
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
+        width='600px'
+        aria-labelledby='modal-title'
+        aria-describedby='modal-description'
         {...bindings}
       >
         <Modal.Body>
-        <iframe src="https://embed.lottiefiles.com/animation/89628"></iframe>
+          <iframe src='https://embed.lottiefiles.com/animation/89628'></iframe>
         </Modal.Body>
       </Modal>
     </div>
