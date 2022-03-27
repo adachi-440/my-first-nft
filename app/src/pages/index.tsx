@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   const [canGamePlay, setCanGamePlay] = useState(false);
   const router = useRouter();
   const contract = useContract();
-  const { connectWallet } = useWeb3()
+  const { connectWallet, account, provider } = useWeb3()
 
   const checkPlayGame = async () => {
     try {
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
   const startGame = async () => {
     try {
       if (contract) {
-        await contract.startGame();
+        // await contract.startGame();
         router.push('/game');
       }
     } catch (error) {
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     checkPlayGame();
     localStorage.setItem('stage', '1');
-  }, [contract]);
+  }, [contract, provider]);
 
   return (
     <div>
@@ -58,7 +58,8 @@ const Home: NextPage = () => {
           <br />
           <div className='app-title-discription'>Choose rocket and travel another space!</div>
           <div className='padding-top-96px'></div>
-          {canGamePlay ? <button onClick={() => startGame()}>start game!!</button> : <button onClick={() => connectWallet()}>Connect Wallet</button>}
+          {!provider && <button onClick={() => connectWallet()}>Connect Wallet</button> }
+          {(provider && canGamePlay) && <button onClick={() => startGame()}>start game!!</button>}
         </div>
       </div>
       <div className='padding-top-64px'></div>

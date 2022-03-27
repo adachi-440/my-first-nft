@@ -27,6 +27,7 @@ const CurrentStatus: NextPage = () => {
   const fetchCurrentStatus = async () => {
     try {
       if (contarct) {
+        setStatuses([])
         const currentStatuses = await contarct.fetchCurrenStatus();
         currentStatuses.map((s: any, index: number) => {
           const copy = statuses;
