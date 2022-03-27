@@ -281,9 +281,17 @@ button:active {
 .game-main {
   position: absolute;
   display: flex;
+  justify-content: space-around;
   top: 40%;
   left: 50%;
+  width: 70%;
   transform: translate(-50%, -50%);
+}
+
+.game-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .button03 a {
@@ -303,6 +311,7 @@ button:active {
   color: #ffffff;
   letter-spacing: 8px;
   font-size: 16px;
+  text-align: center;
 }
 
 .button03 a:hover {

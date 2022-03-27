@@ -11,6 +11,7 @@ const getDefaultContextValue = (): Web3ContextInterface => ({
   stage: 1,
   connectWallet: async () => {},
   nextStage: () => {},
+  resetStage: () => {},
   checkPlayGame: async () => false,
   fetchCurrentStatus: async () => [],
   startGame: async () => {},
@@ -31,6 +32,11 @@ export const TransactionProvider: React.FC<React.PropsWithChildren<{ key?: strin
     localStorage.setItem('stage', (stage + 1).toString());
     setStage(stage + 1);
   };
+
+  const resetStage = () => {
+    localStorage.setItem('stage', '1');
+    setStage(1);
+  }
 
   const connectWallet = async () => {
     try {
@@ -128,6 +134,7 @@ export const TransactionProvider: React.FC<React.PropsWithChildren<{ key?: strin
         stage,
         provider,
         nextStage,
+        resetStage,
         connectWallet,
         checkPlayGame,
         fetchCurrentStatus,

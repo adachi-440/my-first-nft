@@ -3,11 +3,17 @@ import { NextPage } from 'next/types';
 import { useEffect } from 'react';
 import Image from 'next/image';
 import FailedAlign from '../assets/faild_alien.png';
+import { useWeb3 } from '../hooks/useWeb3';
 
 const Failed: NextPage = () => {
   const router = useRouter();
+  const { resetStage } = useWeb3();
 
-  useEffect(() => localStorage.setItem('stage', '1'), []);
+  const reset = () => {
+    resetStage()
+    router.push('/')
+  }
+
   return (
     <div className='content'>
       <div className='fail-content'>
@@ -16,7 +22,7 @@ const Failed: NextPage = () => {
         <Image className='faild-alien-image' src={FailedAlign} />
 
         <div className='next-game-button'>
-          <a onClick={() => router.push('/')}>TOP PAGE</a>
+          <a onClick={() => reset()}>TOP PAGE</a>
         </div>
       </div>
     </div>

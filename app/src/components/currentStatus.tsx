@@ -4,6 +4,7 @@ import { NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
 import { useContract } from '../hooks/useContract';
 import { convertStageToPlanet } from '../utils/util';
+import { useWeb3 } from '../hooks/useWeb3';
 
 interface Status {
   stage: number;
@@ -23,6 +24,7 @@ const columns = [
 const CurrentStatus: NextPage = () => {
   const [statuses, setStatuses] = useState<Status[]>([]);
   const contarct = useContract();
+  const { stage } = useWeb3()
 
   const fetchCurrentStatus = async () => {
     try {
@@ -42,7 +44,7 @@ const CurrentStatus: NextPage = () => {
 
   useEffect(() => {
     fetchCurrentStatus();
-  }, [contarct]);
+  }, [contarct, stage]);
 
   return (
     <div className='rank-box-contents'>

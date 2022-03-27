@@ -12,6 +12,7 @@ export interface Web3ContextInterface {
   provider: ethers.providers.Web3Provider | null;
   stage: number;
   nextStage: () => void;
+  resetStage: () => void;
   connectWallet: () => Promise<void>;
   checkPlayGame: () => Promise<boolean>;
   fetchCurrentStatus: () => Promise<any[]>;

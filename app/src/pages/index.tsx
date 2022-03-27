@@ -52,8 +52,7 @@ const Home: NextPage = () => {
         </div>
         <div className='home-contents'>
           <div className='title-app-name'>
-            SPACE BOUKEN <br />
-            DAAP
+          SPACE<br/>FOUNDER
           </div>
           <br />
           <div className='app-title-discription'>Choose rocket and travel another space!</div>

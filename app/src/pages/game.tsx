@@ -6,7 +6,8 @@ import { useWeb3 } from '../hooks/useWeb3';
 import { Modal, useModal } from '@nextui-org/react';
 import Image from 'next/image';
 import PlayBackGround from '../assets/play_background.png';
-import Player from '../assets/player_1.png';
+import Player1 from '../assets/player_1.png';
+import Player2 from '../assets/player_2.png';
 import GameCenter from '../assets/game-center.png';
 
 const Game: NextPage = () => {
@@ -27,7 +28,7 @@ const Game: NextPage = () => {
         await _sleep(5000);
         router.replace({
           pathname: '/result',
-          query: { status: parseInt(result._hex) },
+          query: { status: 1 },
         });
         setVisible(false);
         // parseInt(result._hex)
@@ -42,21 +43,25 @@ const Game: NextPage = () => {
   const judgeTest = async () => {
     try {
       if (contract) {
+        let count = 0;
         for (let i = 0; i < 100; i++) {
           const num = Math.floor(Math.random() * 9999999) + 1;
           const result = await contract.judgeGame(stage, num);
-          console.log(result);
-          if (parseInt(result._hex) == 3) {
-            const t = test;
-            setTest(t + 1);
+          console.log(parseInt(result._hex))
+          if (parseInt(result._hex) === 3) {
+            count++;
           }
-          await _sleep(2000);
         }
+        console.log(count)
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    judgeTest()
+  }, [contract])
 
   return (
     <div>
@@ -66,21 +71,21 @@ const Game: NextPage = () => {
         <div className='content'>
           <Image className='game-play-background' src={PlayBackGround} />
           <div className='game-main'>
-            <div>
-              <Image src={Player} />
-              <div className='choose-hero-title'>Lex Anston</div>
+            <div className='game-select'>
+              <Image src={Player1} height={450}/>
+              <div className='choose-hero-title'>Adachi Tomoki</div>
               <div className='padding-top-32px'></div>
               <div className='button03'>
                 <a onClick={() => judge()}>PLAY</a>
               </div>
             </div>
-            <div>
-              <Image src={GameCenter} />
+            <div className='game-select'>
+              <Image src={GameCenter}/>
               <div className='choose-hero-title'>See Game Rules</div>
             </div>
-            <div>
-              <Image src={Player} />
-              <div className='choose-hero-title'>Lex Anston</div>
+            <div className='game-select'>
+              <Image src={Player2} height={450}/>
+              <div className='choose-hero-title'>Kato Goki</div>
               <div className='padding-top-32px'></div>
               <div className='button03'>
                 <a onClick={() => judge()}>PLAY</a>

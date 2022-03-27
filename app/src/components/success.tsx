@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { Textarea } from '@nextui-org/react';
+import { Loading, Textarea } from '@nextui-org/react';
+
 import { NextPage } from 'next/types';
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { useContract } from '../hooks/useContract';
@@ -36,7 +37,7 @@ const Success: NextPage<Props> = (props) => {
 
   const contract = useContract();
   const router = useRouter();
-  const { stage, nextStage } = useWeb3();
+  const { stage, nextStage, resetStage } = useWeb3();
 
   const pushNextStage = () => {
     nextStage();
@@ -48,10 +49,10 @@ const Success: NextPage<Props> = (props) => {
       console.log(contract);
       if (contract) {
         // todo svgを入れる
-        const txn = await contract.createGameItem(stage, message, pickUpImage(stage));
         setisLoading(true);
+        const txn = await contract.createGameItem(stage, message, pickUpImage(stage));
         await txn.wait();
-        localStorage.setItem('stage', '1');
+        resetStage();
         setisLoading(false);
         router.push('/');
       }
@@ -102,7 +103,7 @@ const Success: NextPage<Props> = (props) => {
         html: (
           <div>
             {isLoading ? (
-              <p>ローディング中...</p>
+              <Loading />
             ) : (
               <div className='button-group'>
                 <div className='next-game-button'>
@@ -134,7 +135,7 @@ const Success: NextPage<Props> = (props) => {
             /> */}
             <div>
               {isLoading ? (
-                <p>ローディング中...</p>
+                <Loading />
               ) : (
                 <div className='next-game-button'>
                   <a onClick={() => getNFT()}>Get NFT</a>
@@ -145,7 +146,7 @@ const Success: NextPage<Props> = (props) => {
         ),
       });
     }
-  }, [contract]);
+  }, [contract, isLoading]);
   return (
     <div className='content'>
       <div className='game-earth-img'>
