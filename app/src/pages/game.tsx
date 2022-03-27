@@ -3,6 +3,7 @@ import { NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
 import { useContract } from '../hooks/useContract';
 import { useWeb3 } from '../hooks/useWeb3';
+import { Modal, useModal } from "@nextui-org/react";
 import Image from 'next/image';
 import PlayBackGround from '../assets/play_background.png';
 import Player from '../assets/player_1.png';
@@ -14,18 +15,22 @@ const Game: NextPage = () => {
   const router = useRouter();
   const { stage, nextStage } = useWeb3();
   const [test, setTest] = useState(0);
+  const { setVisible, bindings } = useModal();
 
   const judge = async () => {
     try {
       if (contract) {
         setisLoading(true);
+        setVisible(true);
         const num = Math.floor(Math.random() * 9999999) + 1;
         const result = await contract.judgeGame(stage, num);
-        setisLoading(false);
+        await _sleep(3000);
         router.replace({
           pathname: '/result',
-          query: { status: parseInt(result._hex).toString() },
+          query: { status: 2 },
         });
+        setVisible(false)
+        // parseInt(result._hex)
       }
     } catch (error) {
       console.error(error);
@@ -53,18 +58,14 @@ const Game: NextPage = () => {
     }
   };
 
-  useEffect(() => {
-    judgeTest();
-  }, [contract]);
-
   return (
     <div>
       {isLoading ? (
-        <p>ローディング中</p>
+        <p></p>
       ) : (
         <div className='content'>
           <Image className='game-play-background' src={PlayBackGround} />
-          <div className='content-main'>
+          <div className='game-main'>
             <div>
               <Image src={Player} />
               <div className='choose-hero-title'>Lex Anston</div>
@@ -88,6 +89,17 @@ const Game: NextPage = () => {
           </div>
         </div>
       )}
+      <Modal
+        scroll
+        width="600px"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        {...bindings}
+      >
+        <Modal.Body>
+        <iframe src="https://embed.lottiefiles.com/animation/89628"></iframe>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

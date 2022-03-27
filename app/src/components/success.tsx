@@ -67,10 +67,7 @@ const Success: NextPage<Props> = (props) => {
         title: 'SUCCESS!',
         content: `now you are :${convertStageToPlanet(stage)}  parcentarge: 5%`,
         html: (
-          <div className="button-group">
-            <div className='next-game-button'>
-              <a onClick={() => pushNextStage()}>Next Stage</a>
-            </div>
+          <div className='button-group'>
             <div className='next-game-button'>
               <a onClick={() => pushNextStage()}>Next Stage</a>
             </div>
@@ -80,13 +77,14 @@ const Success: NextPage<Props> = (props) => {
     } else if (result == 1) {
       setSuccessStatus({
         title: 'Success',
-        content: 'NFTを発行するかゲームを継続できるか選択できるぞい',
+        content:
+          'You have arrived here for the first time; you can get your NFT and finish the game.   But there are others in the world who have ventured further than this and succeeded in their journey.   You may try the next journey. However, if you fail, you will not get the NFT for this planet.',
         html: (
           <div>
             {isLoading ? (
               <p>ローディング中...</p>
             ) : (
-              <div>
+              <div className='button-group'>
                 <div className='next-game-button'>
                   <a onClick={() => getNFT()}>Get NFT</a>
                 </div>
@@ -129,15 +127,13 @@ const Success: NextPage<Props> = (props) => {
         <Image src={GameEarth} />
       </div>
       <div className='content-main'>
+        <div className='game-result-title'>{successStatus.title}</div>
+        <div className='padding-top-64px'></div>
         <div>
-          <div className='game-result-title'>{successStatus.title}</div>
+          <div className='game-result-message'>{successStatus.content}</div>
           <div className='padding-top-64px'></div>
-          <div>
-            <div className='game-result-message'>{successStatus.content}</div>
-            <div className='padding-top-64px'></div>
 
-            {successStatus.html}
-          </div>
+          {successStatus.html}
         </div>
       </div>
     </div>
