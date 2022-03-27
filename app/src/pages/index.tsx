@@ -29,7 +29,7 @@ const Home: NextPage = () => {
   const startGame = async () => {
     try {
       if (contract) {
-        // await contract.startGame();
+        await contract.startGame();
         router.push('/game');
       }
     } catch (error) {

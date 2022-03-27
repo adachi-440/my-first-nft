@@ -24,10 +24,10 @@ const Game: NextPage = () => {
         setVisible(true);
         const num = Math.floor(Math.random() * 9999999) + 1;
         const result = await contract.judgeGame(stage, num);
-        await _sleep(3000);
+        await _sleep(5000);
         router.replace({
           pathname: '/result',
-          query: { status: 2 },
+          query: { status: parseInt(result._hex) },
         });
         setVisible(false)
         // parseInt(result._hex)
