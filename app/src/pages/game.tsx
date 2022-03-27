@@ -28,7 +28,7 @@ const Game: NextPage = () => {
         await _sleep(5000);
         router.replace({
           pathname: '/result',
-          query: { status: 1 },
+          query: { status: parseInt(result._hex) },
         });
         setVisible(false);
         // parseInt(result._hex)
@@ -59,9 +59,9 @@ const Game: NextPage = () => {
     }
   };
 
-  useEffect(() => {
-    judgeTest()
-  }, [contract])
+  // useEffect(() => {
+  //   judgeTest()
+  // }, [contract])
 
   return (
     <div>
