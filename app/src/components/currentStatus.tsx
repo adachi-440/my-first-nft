@@ -66,7 +66,7 @@ const CurrentStatus: NextPage = () => {
       <div className='padding-top-8px'></div>
 
       {statuses.map((status, index) => (
-        <div className='ranking-box'>
+        <div className='ranking-box' key={index}>
           <div className='ranking-box-contents'>
             <div className='ranking-box-contents-left'>
               <div className='ranking-box-contents-left-number'>{index + 1}</div>

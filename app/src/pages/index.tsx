@@ -19,7 +19,7 @@ const Home: NextPage = () => {
     try {
       if (contract) {
         const canPlayGame = await contract.canPlayGame();
-        setCanGamePlay(canPlayGame);
+        setCanGamePlay(true);
       }
       return false;
     } catch (error) {
